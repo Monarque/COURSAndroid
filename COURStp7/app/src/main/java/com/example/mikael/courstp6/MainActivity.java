@@ -11,10 +11,10 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     private ListView mainListView;
-    private ArrayAdapter<Personne> listAdapter;
+    private ArrayAdapter<Livre> listAdapter;
     private int pos;
     private static final int AJOUTER = 0;
-    private static final int MODIFIER = 1;
+    private static final int AFFICHER = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainListView = (ListView) findViewById(R.id.liste);
-        listAdapter = new ArrayAdapter<Personne>(this, R.layout.listitem);
+        listAdapter = new ArrayAdapter<Livre>(this, R.layout.listitem);
         mainListView.setAdapter(listAdapter);
 
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (v.getId() == R.id.buttonDELETE) {
             listAdapter.remove(listAdapter.getItem(pos));
         } else {
-            Intent request = new Intent(MainActivity.this, Main2Activity.class);
-            request.putExtra("MODIFICATION", listAdapter.getItem(pos));
-            startActivityForResult(request, MODIFIER);
+            Intent request = new Intent(MainActivity.this, Main3Activity.class);
+            request.putExtra("AFFICHER", listAdapter.getItem(pos));
+            startActivityForResult(request, AFFICHER);
         }
     }
 
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
 
-            case MODIFIER:
+            case AFFICHER:
                 if (resultCode == RESULT_OK) {
-                    Personne pers = (Personne) data.getExtras().getSerializable("valider");
+                    Livre pers = (Livre) data.getExtras().getSerializable("valider");
                     listAdapter.remove(listAdapter.getItem(pos));
                     listAdapter.insert(pers, pos);
                 }
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             case AJOUTER:
                 if (resultCode == RESULT_OK) {
-                    Personne p = (Personne) data.getExtras().getSerializable("valider");
+                    Livre p = (Livre) data.getExtras().getSerializable("valider");
                     listAdapter.add(p);
                 }
                 break;

@@ -26,8 +26,13 @@ public class Main2Activity extends AppCompatActivity {
         Bundle b = iin.getExtras();
         if(b!=null)
         {
-            String str =(String) b.get("MODIFICATION");
-            System.out.println("ma chaine: ==> "+str);
+            Personne p = (Personne) b.getSerializable("MODIFICATION");
+            nom = (EditText) findViewById(R.id.nom);
+            prenom = (EditText) findViewById(R.id.prenom);
+            numero = (EditText) findViewById(R.id.numero);
+            nom.setText(p.getNom());
+            prenom.setText(p.getPrenom());
+            numero.setText(p.getNumero());
         }
 
     }
@@ -43,7 +48,7 @@ public class Main2Activity extends AppCompatActivity {
             String prenomString = prenom.getText().toString();
             String numeroString = numero.getText().toString();
             personne = new Personne(prenomString, nomString, numeroString);
-            myIntent.putExtra("valider", personne.toString());
+            myIntent.putExtra("valider", personne);
             setResult(RESULT_OK, myIntent);
             finish();
         }
